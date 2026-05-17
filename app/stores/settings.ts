@@ -6,27 +6,35 @@ const TRANSFORM_PRECISION_PLUGINS = new Set(['convertTransform', 'convertPathDat
 
 export const useSettingsStore = defineStore('settings', () => {
   const defaultSettings = (): SvgoSettings => ({
+    schemaVersion: SETTINGS_SCHEMA_VERSION,
     floatPrecision: 3,
     transformPrecision: 5,
     multipass: false,
+    prettify: false,
     plugins: Object.fromEntries(PLUGIN_DEFS.map(def => [def.name, { enabled: def.defaultEnabled }])),
   });
 
   const settings = useLocalStorage<SvgoSettings>('svgo-settings', defaultSettings(), {
-    mergeDefaults: (storageValue, defaults) => ({
-      ...defaults,
-      ...storageValue,
-      plugins: Object.fromEntries(
-        Object.entries(defaults.plugins).map(([name, defaultPlugin]) => [
-          name,
-          { ...defaultPlugin, ...(storageValue.plugins?.[name] ?? {}) },
-        ]),
-      ),
-    }),
+    mergeDefaults: (storageValue, defaults) => {
+      const fromVersion = (storageValue as { schemaVersion?: number }).schemaVersion ?? 0;
+      const migrated = migrateSettings(storageValue, fromVersion);
+      return {
+        ...defaults,
+        ...migrated,
+        schemaVersion: SETTINGS_SCHEMA_VERSION,
+        plugins: Object.fromEntries(
+          Object.entries(defaults.plugins).map(([name, defaultPlugin]) => [
+            name,
+            { ...defaultPlugin, ...(migrated.plugins?.[name] ?? {}) },
+          ]),
+        ),
+      };
+    },
   });
 
   const svgoConfig = computed<Config>(() => ({
     multipass: settings.value.multipass,
+    js2svg: settings.value.prettify ? { pretty: true, indent: 2 } : {},
     plugins: PLUGIN_DEFS.filter(def => settings.value.plugins[def.name]?.enabled).map(def => {
       if (def.custom && CUSTOM_PLUGINS[def.name]) return CUSTOM_PLUGINS[def.name];
 

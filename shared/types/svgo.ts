@@ -23,8 +23,10 @@ export type PluginState = {
 };
 
 export type SvgoSettings = {
+  schemaVersion: number;
   floatPrecision: number;
   transformPrecision: number;
   multipass: boolean;
+  prettify: boolean;
   plugins: Record<string, PluginState>;
 };

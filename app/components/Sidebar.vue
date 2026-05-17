@@ -52,7 +52,7 @@
         <div class="space-y-3">
           <p class="text-muted mb-3 text-xs font-semibold tracking-wider uppercase">Global</p>
           <USwitch v-model="settingsStore.settings.multipass" size="lg" label="Multipass" />
-          <USwitch v-model="preferencesStore.preferences.prettify" size="lg" label="Prettify output" />
+          <USwitch v-model="settingsStore.settings.prettify" size="lg" label="Prettify output" />
           <USwitch v-model="preferencesStore.preferences.showGzipped" size="lg" label="Show gzipped size" />
           <UFormField
             :label="`Number precision: ${settingsStore.settings.floatPrecision}`"

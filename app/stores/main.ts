@@ -15,14 +15,9 @@ export const useStore = defineStore('main', () => {
   });
 
   const optimizedItems = computed<OptimizedSvg[]>(() => {
-    const prettify = preferencesStore.preferences.prettify;
-    const config = prettify
-      ? { ...settingsStore.svgoConfig, js2svg: { pretty: true, indent: 2 } }
-      : settingsStore.svgoConfig;
-
     return inputs.value.map(input => {
       try {
-        const { data } = optimize(input.text, config);
+        const { data } = optimize(input.text, settingsStore.svgoConfig);
         return {
           id: input.id,
           text: data,

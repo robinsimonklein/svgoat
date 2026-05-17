@@ -6,7 +6,6 @@ export const usePreferencesStore = defineStore('preferences', () => {
     {
       enableSimulatedCurrentColor: false,
       simulatedCurrentColor: '#000',
-      prettify: false,
       showGzipped: false,
       cleanFilenames: false,
     },
