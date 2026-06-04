@@ -1,6 +1,6 @@
 import { version } from './package.json';
 
-const SITE_URL = 'https://robinsimonklein.github.io/svgoat/';
+const SITE_URL = 'https://svgo.at/';
 const SITE_TITLE = 'SVGOAT • The ultimate SVG optimizer & batch processor';
 const SITE_DESCRIPTION = 'Clean, optimize, and export your SVGs in seconds. 100% local and blazing fast.';
 
