@@ -22,7 +22,7 @@ export type PluginState = {
   enabled: boolean;
 };
 
-export type SvgoSettings = {
+export type Config = {
   schemaVersion: number;
   floatPrecision: number;
   transformPrecision: number;

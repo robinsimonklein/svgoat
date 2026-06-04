@@ -1,7 +1,7 @@
 import { optimize } from 'svgo/browser';
 
 export const useStore = defineStore('main', () => {
-  const settingsStore = useSettingsStore();
+  const configStore = useConfigStore();
   const preferencesStore = usePreferencesStore();
   const figmaStore = useFigmaStore();
   const toast = useToast();
@@ -17,7 +17,7 @@ export const useStore = defineStore('main', () => {
   const optimizedItems = computed<OptimizedSvg[]>(() => {
     return inputs.value.map(input => {
       try {
-        const { data } = optimize(input.text, settingsStore.svgoConfig);
+        const { data } = optimize(input.text, configStore.svgoConfig);
         return {
           id: input.id,
           text: data,

@@ -1,15 +1,15 @@
-import type { SvgoSettings } from '#shared/types/svgo';
+import type { Config } from '../types/config';
 
 export const SETTINGS_SCHEMA_VERSION = 1;
 
 type MigrationFn = (_settings: Record<string, unknown>) => Record<string, unknown>;
 
-// Add one entry per breaking change to the SvgoSettings schema.
+// Add one entry per breaking change to the Config schema.
 // The key is the version *from* which we migrate (e.g. 1 → migration from v1 to v2).
 // Example : { 1: s => ({ ...s, nouvelleClé: s.ancienneClé }) }
 const migrations: Record<number, MigrationFn> = {};
 
-export function migrateSettings(stored: unknown, fromVersion = 0): SvgoSettings {
+export function migrateSettings(stored: unknown, fromVersion = 0): Config {
   let settings: Record<string, unknown> = { ...(stored as Record<string, unknown>) };
   let version = fromVersion;
 
@@ -19,5 +19,5 @@ export function migrateSettings(stored: unknown, fromVersion = 0): SvgoSettings 
     version++;
   }
 
-  return settings as SvgoSettings;
+  return settings as Config;
 }

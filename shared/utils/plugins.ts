@@ -1,4 +1,4 @@
-import type { PluginDef } from '#shared/types/svgo';
+import type { PluginDef } from '../types/config';
 
 export const PLUGIN_DEFS: PluginDef[] = [
   // Metadata & document

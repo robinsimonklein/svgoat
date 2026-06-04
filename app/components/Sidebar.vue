@@ -51,20 +51,17 @@
       <div class="space-y-6">
         <div class="space-y-3">
           <p class="text-muted mb-3 text-xs font-semibold tracking-wider uppercase">Global</p>
-          <USwitch v-model="settingsStore.settings.multipass" size="lg" label="Multipass" />
-          <USwitch v-model="settingsStore.settings.prettify" size="lg" label="Prettify output" />
+          <USwitch v-model="configStore.config.multipass" size="lg" label="Multipass" />
+          <USwitch v-model="configStore.config.prettify" size="lg" label="Prettify output" />
           <USwitch v-model="preferencesStore.preferences.showGzipped" size="lg" label="Show gzipped size" />
-          <UFormField
-            :label="`Number precision: ${settingsStore.settings.floatPrecision}`"
-            :ui="{ label: 'tabular-nums' }"
-          >
-            <USlider v-model="settingsStore.settings.floatPrecision" :min="0" :max="8" class="w-full" />
+          <UFormField :label="`Number precision: ${configStore.config.floatPrecision}`" :ui="{ label: 'tabular-nums' }">
+            <USlider v-model="configStore.config.floatPrecision" :min="0" :max="8" class="w-full" />
           </UFormField>
           <UFormField
-            :label="`Transform precision: ${settingsStore.settings.transformPrecision}`"
+            :label="`Transform precision: ${configStore.config.transformPrecision}`"
             :ui="{ label: 'tabular-nums' }"
           >
-            <USlider v-model="settingsStore.settings.transformPrecision" :min="0" :max="8" class="w-full" />
+            <USlider v-model="configStore.config.transformPrecision" :min="0" :max="8" class="w-full" />
           </UFormField>
         </div>
 
@@ -77,7 +74,7 @@
           <p class="text-muted mb-3 text-xs font-semibold tracking-wider uppercase">{{ CATEGORY_LABELS[category] }}</p>
           <div class="space-y-3">
             <div v-for="def in defs" :key="def.name">
-              <USwitch v-model="settingsStore.settings.plugins[def.name]!.enabled" size="lg" :label="def.label" />
+              <USwitch v-model="configStore.config.plugins[def.name]!.enabled" size="lg" :label="def.label" />
             </div>
           </div>
         </div>
@@ -87,11 +84,11 @@
 </template>
 
 <script setup lang="ts">
-import type { PluginCategory } from '#shared/types/svgo';
+import type { PluginCategory } from '../../shared/types/config';
 
 const toast = useToast();
 
-const settingsStore = useSettingsStore();
+const configStore = useConfigStore();
 const preferencesStore = usePreferencesStore();
 
 const {
@@ -120,7 +117,7 @@ const pluginsByCategory = computed(() => {
 });
 
 const resetSettings = () => {
-  settingsStore.reset();
+  configStore.reset();
   toast.add({ title: 'Default settings applied', color: 'success', icon: 'i-lucide-check' });
 };
 </script>
