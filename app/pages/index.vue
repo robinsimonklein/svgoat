@@ -45,25 +45,55 @@ const pageTitle = computed(() => {
 useHead({ title: pageTitle });
 
 const handleClipboardPaste = async () => {
-  const rawInput = await navigator.clipboard.readText();
-  if (!rawInput) return;
+  const items = await navigator.clipboard.read();
+  if (!items?.length) return;
 
-  if (isFigmaUrl(rawInput.trim())) {
-    if (!isConnected.value) {
-      toast.add({
-        title: 'Figma not connected',
-        description: 'Connect your Figma account to import from a link.',
-        color: 'neutral',
-        icon: 'i-logos-figma',
-      });
+  const showFigmaNotConnected = () =>
+    toast.add({
+      title: 'Figma not connected',
+      description: 'Connect your Figma account to import from a link.',
+      color: 'neutral',
+      icon: 'i-logos-figma',
+    });
+
+  // Detect a Figma object copied directly from the canvas (contains figmeta in HTML)
+  for (const item of items) {
+    if (!item.types.includes('text/html')) continue;
+    const html = await item.getType('text/html').then(b => b.text());
+
+    const figmeta = parseFigmaClipboard(html);
+    if (figmeta) {
+      if (!isConnected.value) {
+        showFigmaNotConnected();
+        return;
+      }
+      const nodeId = figmeta.nodeId.replaceAll(':', '-');
+      await figmaStore.handleNewUrl(`https://www.figma.com/design/${figmeta.fileKey}?node-id=${nodeId}`);
       return;
     }
-    await figmaStore.handleNewUrl(rawInput.trim());
+  }
+
+  // Fall back to plain text: Figma URL or SVG markup
+  let text = '';
+  for (const item of items) {
+    if (!item.types.includes('text/plain')) continue;
+    text = await item.getType('text/plain').then(b => b.text());
+    break;
+  }
+
+  if (!text) return;
+
+  if (isFigmaUrl(text.trim())) {
+    if (!isConnected.value) {
+      showFigmaNotConnected();
+      return;
+    }
+    await figmaStore.handleNewUrl(text.trim());
     return;
   }
 
   try {
-    store.addFromText(rawInput);
+    store.addFromText(text);
   } catch (e) {
     toast.add({ title: 'Not supported', description: (e as Error).message, color: 'error' });
   }
