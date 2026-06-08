@@ -136,6 +136,16 @@ const download = () => {
     downloadAllAsZip(store.optimizedItems, filenames);
   }
 };
+
+defineShortcuts({
+  meta_c: () => {
+    if (!isCopySupported.value) return;
+    if (store.mode !== 'single' || !store.optimizedSvg) return;
+
+    copySvg(store.optimizedSvg);
+  },
+  meta_s: download,
+});
 </script>
 
 <style scoped>
