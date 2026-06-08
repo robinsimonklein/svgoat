@@ -2,7 +2,17 @@ import { test, describe, expect } from 'vitest';
 import { PLUGIN_DEFS } from '../../shared/utils/plugins';
 import { CUSTOM_PLUGINS } from '../../shared/utils/customPlugins';
 
-const VALID_CATEGORIES = ['metadata', 'styles', 'ids', 'colors', 'numbers', 'shapes', 'dimensions', 'content', 'output'];
+const VALID_CATEGORIES = [
+  'metadata',
+  'styles',
+  'ids',
+  'colors',
+  'numbers',
+  'shapes',
+  'dimensions',
+  'content',
+  'output',
+];
 
 describe('PLUGIN_DEFS', () => {
   test('every entry has required fields', () => {
