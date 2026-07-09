@@ -75,18 +75,18 @@ const URL_REF_RE = /url\(\s*['"]?#([^)'"\s]+)['"]?\s*\)/;
 const refId = (value: string | undefined): string | null => {
   if (!value) return null;
   const m = value.match(URL_REF_RE);
-  return m ? m[1] : null;
+  return m?.[1] ?? null;
 };
 
 const parseViewBox = (svg: El): Rect | null => {
   const vb = svg.attributes.viewBox;
   if (vb) {
-    const p = vb
+    const [x, y, w, h] = vb
       .trim()
       .split(/[\s,]+/)
       .map(Number);
-    if (p.length === 4 && p.every(n => Number.isFinite(n))) {
-      return { x: p[0], y: p[1], w: p[2], h: p[3] };
+    if ([x, y, w, h].every(n => n !== undefined && Number.isFinite(n))) {
+      return { x: x!, y: y!, w: w!, h: h! };
     }
   }
   const w = toNum(svg.attributes.width);
@@ -120,8 +120,10 @@ const rectFromPath = (d: string | undefined): Rect | null => {
   const pts: Array<[number, number]> = [];
   const isCmd = (t: string) => /[MmLlHhVvZz]/.test(t);
   const next = (): number | null => {
-    if (i >= tokens.length || isCmd(tokens[i])) return null;
-    return parseFloat(tokens[i++]);
+    const t = tokens[i];
+    if (t === undefined || isCmd(t)) return null;
+    i++;
+    return parseFloat(t);
   };
 
   while (i < tokens.length) {
@@ -238,7 +240,7 @@ const collectRefs = (el: El, into: Set<string>): void => {
   const re = new RegExp(URL_REF_RE.source, 'g');
   for (const value of Object.values(el.attributes)) {
     let m: RegExpExecArray | null;
-    while ((m = re.exec(value))) into.add(m[1]);
+    while ((m = re.exec(value))) if (m[1]) into.add(m[1]);
   }
   for (const child of el.children) if (isEl(child)) collectRefs(child, into);
 };
@@ -268,6 +270,7 @@ export const removeViewBoxClipPath: CustomPlugin = {
           (!units || units === 'userSpaceOnUse') &&
           !node.attributes.transform &&
           kids.length === 1 &&
+          child &&
           !child.attributes.transform
         ) {
           const rect =
