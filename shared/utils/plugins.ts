@@ -258,6 +258,14 @@ export const PLUGIN_DEFS: PluginDef[] = [
     defaultEnabled: true,
     category: 'shapes',
   },
+  {
+    name: 'removeViewBoxClipPath',
+    label: 'Remove redundant frame clip-paths',
+    description: 'Removes Figma-style clip-paths that just clip to the full viewBox (visual no-op)',
+    defaultEnabled: false,
+    category: 'shapes',
+    custom: true,
+  },
 
   // Dimensions & viewport
   {
