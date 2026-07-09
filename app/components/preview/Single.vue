@@ -95,8 +95,8 @@ const OFFSET_LEFT = 16;
 const OFFSET_TOP = 16;
 const OFFSET_BOTTOM = 16;
 
-// Position initiale : object-fit: contain dans la zone visible (viewport - offsets),
-// avec transform-origin: 0 0 (coin sup. gauche de l'élément à (tx, ty)).
+// Initial position: object-fit: contain in the visible area (viewport - offsets),
+// with transform-origin: 0 0 (top-left corner of the element at (tx, ty)).
 const initialPosition = computed(() => {
   const svgWidth = store.input?.width ?? 0;
   const svgHeight = store.input?.height ?? 0;
@@ -178,8 +178,8 @@ useEventListener(
     const factor = e.deltaY < 0 ? SCALE_FACTOR : 1 / SCALE_FACTOR;
     const newScale = Math.max(MIN_SCALE, Math.round(oldScale * factor * 100) / 100);
 
-    // Avec transform-origin: 0 0, le coin supérieur gauche est à (tx, ty).
-    // Pour garder le point sous le curseur fixe : tx' = tx * ratio + (1 - ratio) * cx
+    // With transform-origin: 0 0, the top-left corner is at (tx, ty).
+    // To keep the point under the cursor fixed: tx' = tx * ratio + (1 - ratio) * cx
     const ratio = newScale / oldScale;
 
     translateX.value = translateX.value * ratio + (1 - ratio) * e.clientX;

@@ -6,7 +6,7 @@ type MigrationFn = (_settings: Record<string, unknown>) => Record<string, unknow
 
 // Add one entry per breaking change to the Config schema.
 // The key is the version *from* which we migrate (e.g. 1 → migration from v1 to v2).
-// Example : { 1: s => ({ ...s, nouvelleClé: s.ancienneClé }) }
+// Example : { 1: s => ({ ...s, newKey: s.oldKey }) }
 const migrations: Record<number, MigrationFn> = {};
 
 export function migrateSettings(stored: unknown, fromVersion = 0): Config {

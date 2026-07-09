@@ -105,8 +105,8 @@ const rectFromRect = (el: El): Rect | null => {
   return { x, y, w, h };
 };
 
-// Renvoie le rectangle décrit par un `d` *uniquement* s'il s'agit d'un
-// rectangle aligné sur les axes (M/L/H/V/Z). Toute courbe (C, S, Q, A…) → null.
+// Returns the rectangle described by a `d` *only* if it is an
+// axis-aligned rectangle (M/L/H/V/Z). Any curve (C, S, Q, A…) → null.
 const rectFromPath = (d: string | undefined): Rect | null => {
   if (!d) return null;
   const tokens = d.match(/[MmLlHhVvZz]|-?\d*\.?\d+(?:e[-+]?\d+)?/g);
@@ -254,7 +254,7 @@ export const removeViewBoxClipPath: CustomPlugin = {
     const vb = parseViewBox(svg);
     if (!vb) return {};
 
-    // Passe 1 : repérer les <clipPath> « frame » éligibles.
+    // Pass 1: identify eligible "frame" <clipPath> elements.
     const eligible = new Set<string>();
     const clipPathNodes = new Map<string, { node: El; parent: El }>();
 
@@ -294,7 +294,7 @@ export const removeViewBoxClipPath: CustomPlugin = {
     findClipPaths(svg, null);
     if (eligible.size === 0) return {};
 
-    // Passe 2 : retirer clip-path sur les éléments dont la chaîne est sans transform.
+    // Pass 2: remove clip-path on elements whose ancestor chain has no transform.
     const visit = (el: El, transformAbove: boolean): void => {
       const transformHere = transformAbove || !!el.attributes.transform;
       const id = refId(el.attributes['clip-path']);
@@ -305,8 +305,8 @@ export const removeViewBoxClipPath: CustomPlugin = {
     };
     visit(svg, !!svg.attributes.transform);
 
-    // Supprimer les <clipPath> devenus orphelins (par sécurité, on revérifie
-    // qu'aucune référence — quelle qu'elle soit — ne subsiste).
+    // Remove <clipPath> elements that became orphaned (for safety, re-verify
+    // that no reference — of any kind — remains).
     const stillReferenced = new Set<string>();
     collectRefs(svg, stillReferenced);
     for (const id of eligible) {
