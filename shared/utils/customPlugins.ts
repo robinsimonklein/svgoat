@@ -24,7 +24,7 @@ export const convertColorsToCurrentColor: CustomPlugin = {
     element: {
       enter: node => {
         for (const attr of COLOR_ATTRS) {
-          if (attr in node.attributes && isColorValue(node.attributes[attr])) {
+          if (attr in node.attributes && isColorValue(node.attributes[attr]!)) {
             node.attributes[attr] = 'currentColor';
           }
         }

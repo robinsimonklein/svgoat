@@ -27,7 +27,7 @@
         />
       </div>
     </div>
-    <div v-else class="fixed inset-0 z-0 overflow-hidden pr-90">
+    <div v-else class="fixed inset-0 z-0 overflow-hidden pr-100">
       <LazyMarkup class="min-h-full w-full" :value="store.optimizedSvg!.trim()" />
     </div>
 
@@ -90,7 +90,7 @@ const view = ref<'image' | 'code'>('image');
 const SCALE_FACTOR = 1.05;
 const MIN_SCALE = 0.1;
 const BUTTON_SCALE_FACTOR = 1.25;
-const OFFSET_RIGHT = 360 + 16; // sidebar (w-90)
+const OFFSET_RIGHT = 400 + 16; // sidebar (w-100)
 const OFFSET_LEFT = 16;
 const OFFSET_TOP = 16;
 const OFFSET_BOTTOM = 16;
