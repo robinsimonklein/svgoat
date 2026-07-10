@@ -14,10 +14,6 @@
             </span>
           </span>
         </h1>
-        <p class="text-muted text-xs">
-          v{{ appVersion }} – Powered by
-          <ULink to="https://github.com/svg/svgo" target="_blank" external inactive-class="text-info">svgo</ULink>
-        </p>
       </div>
       <div class="ml-auto flex items-center gap-2">
         <div :style="{ '--chip-color': preferencesStore.preferences.simulatedCurrentColor }">
@@ -44,7 +40,7 @@
     </div>
 
     <!-- Settings -->
-    <div class="bg-muted mx-2 mb-2 flex-1 space-y-6 overflow-y-auto rounded-2xl px-3 py-3">
+    <div class="bg-muted mx-2 flex-1 space-y-6 overflow-y-auto rounded-2xl px-3 py-3">
       <div>
         <div class="mb-4 flex items-center gap-2">
           <h2 class="font-bold">Global</h2>
@@ -104,6 +100,28 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="px-4 py-3">
+      <div class="flex w-full items-center gap-2">
+        <p class="text-muted text-xs">
+          v{{ appVersion }} – Powered by
+          <ULink to="https://github.com/svg/svgo" target="_blank" external inactive-class="text-info">svgo</ULink>
+        </p>
+
+        <div class="ml-auto">
+          <UButton
+            icon="i-logos-github-icon"
+            to="https://github.com/robinsimonklein/svgoat"
+            target="_blank"
+            variant="link"
+            size="xs"
+            external
+            square
+          />
         </div>
       </div>
     </div>
