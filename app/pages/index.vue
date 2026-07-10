@@ -11,7 +11,7 @@
         <EmptyView v-else />
       </div>
 
-      <div class="w-90 shrink-0 py-4 pr-4">
+      <div class="w-100 shrink-0 py-4 pr-4">
         <Sidebar />
       </div>
     </div>
