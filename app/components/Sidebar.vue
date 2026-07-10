@@ -51,9 +51,15 @@
       <div class="space-y-6">
         <div class="space-y-3">
           <p class="text-muted mb-3 text-xs font-semibold tracking-wider uppercase">Global</p>
-          <USwitch v-model="configStore.config.multipass" size="lg" label="Multipass" />
-          <USwitch v-model="configStore.config.prettify" size="lg" label="Prettify output" />
-          <USwitch v-model="preferencesStore.preferences.showGzipped" size="lg" label="Show gzipped size" />
+          <SettingControl description="Runs the optimizer multiple times until no further reduction is possible">
+            <USwitch v-model="configStore.config.multipass" size="lg" label="Multipass" />
+          </SettingControl>
+          <SettingControl description="Adds indentation to the output for readability">
+            <USwitch v-model="configStore.config.prettify" size="lg" label="Prettify output" />
+          </SettingControl>
+          <SettingControl description="Shows the estimated gzip-compressed file size alongside the raw size">
+            <USwitch v-model="preferencesStore.preferences.showGzipped" size="lg" label="Show gzipped size" />
+          </SettingControl>
           <UFormField :label="`Number precision: ${configStore.config.floatPrecision}`" :ui="{ label: 'tabular-nums' }">
             <USlider v-model="configStore.config.floatPrecision" :min="0" :max="8" class="w-full" />
           </UFormField>
@@ -67,14 +73,18 @@
 
         <div class="space-y-3">
           <p class="text-muted mb-3 text-xs font-semibold tracking-wider uppercase">Export</p>
-          <USwitch v-model="preferencesStore.preferences.cleanFilenames" size="lg" label="Clean file names" />
+          <SettingControl description="Strips Figma artifacts (frame/group prefixes, copy suffixes) and slugifies file names on export">
+            <USwitch v-model="preferencesStore.preferences.cleanFilenames" size="lg" label="Clean file names" />
+          </SettingControl>
         </div>
 
         <div v-for="[category, defs] in pluginsByCategory" :key="category">
           <p class="text-muted mb-3 text-xs font-semibold tracking-wider uppercase">{{ CATEGORY_LABELS[category] }}</p>
           <div class="space-y-3">
             <div v-for="def in defs" :key="def.name">
-              <USwitch v-model="configStore.config.plugins[def.name]!.enabled" size="lg" :label="def.label" />
+              <SettingControl :description="def.description">
+                <USwitch v-model="configStore.config.plugins[def.name]!.enabled" size="lg" :label="def.label" />
+              </SettingControl>
             </div>
           </div>
         </div>
