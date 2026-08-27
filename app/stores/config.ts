@@ -45,48 +45,8 @@ export const useConfigStore = defineStore('config', () => {
     }) as SvgoConfig['plugins'],
   }));
 
-  let suppressTracking = false;
-
-  const track = (setting: string, value: unknown) => {
-    if (suppressTracking) return;
-    trackEvent('settings_changed', { setting, value });
-  };
-
-  watch(
-    () => config.value.multipass,
-    value => track('multipass', value),
-  );
-  watch(
-    () => config.value.prettify,
-    value => track('prettify', value),
-  );
-  watchDebounced(
-    () => config.value.floatPrecision,
-    value => track('floatPrecision', value),
-    { debounce: 500 },
-  );
-  watchDebounced(
-    () => config.value.transformPrecision,
-    value => track('transformPrecision', value),
-    { debounce: 500 },
-  );
-  for (const def of PLUGIN_DEFS) {
-    watch(
-      () => config.value.plugins[def.name]?.enabled,
-      value => {
-        if (value === undefined) return;
-        track(def.name, value);
-      },
-    );
-  }
-
   const reset = () => {
-    suppressTracking = true;
     config.value = defaultConfig();
-    // Keep suppressed past the debounce window on the precision watchers above.
-    setTimeout(() => {
-      suppressTracking = false;
-    }, 600);
   };
 
   return { config, svgoConfig, reset };

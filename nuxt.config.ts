@@ -49,27 +49,7 @@ export default defineNuxtConfig({
     },
   },
 
-  modules: ['@nuxt/eslint', '@nuxt/ui', '@vueuse/nuxt', '@pinia/nuxt', '@nuxt/test-utils/module', '@nuxt/scripts'],
+  modules: ['@nuxt/eslint', '@nuxt/ui', '@vueuse/nuxt', '@pinia/nuxt', '@nuxt/test-utils/module'],
 
   css: ['~/assets/css/main.css'],
-
-  scripts: {
-    registry: {
-      umamiAnalytics: {
-        websiteId: import.meta.env.NUXT_UMAMI_ID,
-        hostUrl: import.meta.env.NUXT_UMAMI_HOST,
-        autoTrack: true,
-        trigger: 'onNuxtReady',
-        proxy: true,
-        bundle: true,
-        // https://docs.umami.is/docs/performance
-        scriptInput: {
-          'data-performance': 'true',
-        },
-      },
-    },
-    proxy: {
-      alias: true,
-    },
-  },
 });

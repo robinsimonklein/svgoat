@@ -110,13 +110,7 @@ export const useFigmaStore = defineStore('figma', () => {
       const inputs: SvgInput[] = [];
 
       for (const item of items) {
-        let parsed: ReturnType<typeof parseSvg>;
-        try {
-          parsed = parseSvg(await item.file.text());
-        } catch (e) {
-          trackEvent('svg_parse_error', { source: 'figma', reason: (e as Error).message });
-          throw e;
-        }
+        const parsed = parseSvg(await item.file.text());
         const node = nodes.find(n => n.id === item.id);
         const rawName = node?.name || item.id.replaceAll(':', '-');
         const filename = /\.svg$/i.test(rawName) ? rawName : `${rawName}.svg`;
@@ -133,7 +127,6 @@ export const useFigmaStore = defineStore('figma', () => {
       if (!inputs.length) throw new Error('No SVG found in the selected elements.');
 
       store.setInputs(inputs);
-      trackEvent('figma_import', { count: inputs.length });
     } catch (e) {
       console.error(e);
       toast.add({
