@@ -8,6 +8,7 @@ export const useSvgActions = () => {
   const copySvg = async (svg: string) => {
     if (!svg.length) return;
     await copy(svg);
+    trackEvent('svg_copy');
   };
 
   const downloadSvg = (svg: string, filename: string) => {
@@ -18,6 +19,7 @@ export const useSvgActions = () => {
     a.download = ensureSvgExt(filename);
     a.click();
     URL.revokeObjectURL(url);
+    trackEvent('svg_download');
   };
 
   const downloadAllAsZip = async (items: { text: string }[], filenames: string[]) => {
@@ -51,6 +53,7 @@ export const useSvgActions = () => {
       a.download = 'optimized-svgs.zip';
       a.click();
       URL.revokeObjectURL(url);
+      trackEvent('svg_download_all', { count: items.length });
     } catch (e) {
       console.error(e);
     } finally {

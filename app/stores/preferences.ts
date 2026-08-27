@@ -14,6 +14,19 @@ export const usePreferencesStore = defineStore('preferences', () => {
     },
   );
 
+  watch(
+    () => preferences.value.enableSimulatedCurrentColor,
+    value => trackEvent('preference_toggled', { key: 'enableSimulatedCurrentColor', value }),
+  );
+  watch(
+    () => preferences.value.showGzipped,
+    value => trackEvent('preference_toggled', { key: 'showGzipped', value }),
+  );
+  watch(
+    () => preferences.value.cleanFilenames,
+    value => trackEvent('preference_toggled', { key: 'cleanFilenames', value }),
+  );
+
   const simulatedCurrentColor = computed(() => {
     if (preferences.value.enableSimulatedCurrentColor) return preferences.value.simulatedCurrentColor;
 

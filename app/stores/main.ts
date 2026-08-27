@@ -60,8 +60,15 @@ export const useStore = defineStore('main', () => {
   };
 
   const addFromText = (raw: string) => {
-    const parsed = extractSvgs(raw);
+    let parsed: ReturnType<typeof extractSvgs>;
+    try {
+      parsed = extractSvgs(raw);
+    } catch (e) {
+      trackEvent('svg_parse_error', { source: 'paste', reason: (e as Error).message });
+      throw e;
+    }
     setInputs(parsed.map(p => createInput(p, { type: 'clipboard' })));
+    trackEvent('svg_input', { method: 'paste', count: parsed.length, batch: parsed.length > 1 });
   };
 
   const addFromFiles = async (files: File[]) => {
@@ -78,6 +85,8 @@ export const useStore = defineStore('main', () => {
       if (r.status === 'fulfilled') successes.push(r.value);
       else failures.push({ name: svgFiles[i]!.name, reason: (r.reason as Error).message });
     });
+
+    failures.forEach(f => trackEvent('svg_parse_error', { source: 'file', reason: f.reason }));
 
     if (!successes.length) {
       if (failures.length === 1) throw new Error(failures[0]!.reason);
@@ -96,6 +105,7 @@ export const useStore = defineStore('main', () => {
     }
 
     setInputs(successes);
+    trackEvent('svg_input', { method: 'file', count: successes.length, batch: successes.length > 1 });
   };
 
   const removeInput = (index: number) => {

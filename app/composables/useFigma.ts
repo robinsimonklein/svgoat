@@ -11,6 +11,7 @@ export const useFigma = () => {
     try {
       isConnecting.value = true;
       const { url } = await $fetch<{ url: string }>('/api/figma/auth/connect');
+      trackEvent('figma_connect');
       navigateTo(url, { external: true });
     } finally {
       isConnecting.value = false;
@@ -19,6 +20,7 @@ export const useFigma = () => {
 
   async function disconnect() {
     await $fetch('/api/figma/auth/disconnect', { method: 'POST' });
+    trackEvent('figma_disconnect');
   }
 
   return { isConnecting, isConnected, connect, disconnect };
