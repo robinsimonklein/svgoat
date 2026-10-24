@@ -21,6 +21,6 @@ For Figma, click **Connect Figma**, paste a node URL, and import the exported SV
 ## Development
 
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm dev
 ```
