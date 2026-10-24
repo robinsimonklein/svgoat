@@ -13,28 +13,28 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@nuxt/ui": "^4.8.2",
+    "@nuxt/ui": "^4.12.0",
     "@oslojs/oauth2": "^0.5.0",
     "@pinia/nuxt": "^0.11.3",
     "@vueuse/nuxt": "^14.3.0",
     "fflate": "^0.8.3",
     "nuxt": "^4.6.2",
-    "shiki": "^4.2.0",
-    "svgo": "^4.0.1",
+    "shiki": "^4.5.0",
+    "svgo": "^4.1.0",
     "tailwindcss": "^4.3.0",
     "vue": "^3.5.32",
     "vue-router": "^5.0.4",
-    "zod": "^4.4.3"
+    "zod": "^4.6.7"
   },
   "devDependencies": {
-    "@nuxt/eslint": "^1.15.2",
-    "@nuxt/test-utils": "^4.0.3",
-    "@vue/test-utils": "^2.4.11",
-    "eslint": "^10.2.0",
+    "@nuxt/eslint": "^1.17.0",
+    "@nuxt/test-utils": "^4.3.4",
+    "@vue/test-utils": "^2.5.1",
+    "eslint": "^10.13.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
     "happy-dom": "^20.10.2",
-    "prettier": "^3.8.2",
+    "prettier": "^3.9.10",
     "prettier-plugin-tailwindcss": "^0.7.2",
     "typescript": "~6.0.3",
     "vitest": "^4.1.8"

@@ -1,13 +1,5 @@
 export type PluginCategory =
-  | 'metadata'
-  | 'styles'
-  | 'ids'
-  | 'colors'
-  | 'numbers'
-  | 'shapes'
-  | 'dimensions'
-  | 'content'
-  | 'output';
+  'metadata' | 'styles' | 'ids' | 'colors' | 'numbers' | 'shapes' | 'dimensions' | 'content' | 'output';
 
 export type PluginDef = {
   name: string;

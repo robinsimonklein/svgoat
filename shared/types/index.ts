@@ -1,7 +1,5 @@
 export type SvgSource =
-  | { type: 'figma'; fileUrl: string; nodeUrl: string; nodeId: string }
-  | { type: 'clipboard' }
-  | { type: 'filesystem' };
+  { type: 'figma'; fileUrl: string; nodeUrl: string; nodeId: string } | { type: 'clipboard' } | { type: 'filesystem' };
 
 export type SvgInput = {
   id: string;
